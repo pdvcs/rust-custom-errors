@@ -1,36 +1,37 @@
 #[macro_use]
 extern crate quick_error;
 
-use std::fs;
 use std::error::Error;
+use std::fs;
 
 quick_error! {
     #[derive(Debug)]
     pub enum MyError {
-        IO(err: std::io::Error) {
-            display("I/O error: {}", err)
-            from()
-        }
-        Parse(err: std::num::ParseIntError) {
-            display("Integer parse error: {}", err.description())
+        Custom(s: String) {
+            display("{}", s)
             from()
         }
     }
 }
 
+// Here our goal is to have readable custom error messages, with context
+
 fn main() {
-    let x = do_something();
+    let result = do_something();
     println!("completed call to do_something()");
-    match x {
-        Ok(v) => println!("function returned tuple: {:?}", v),
-        Err(e) => println!("function returned error: {}", e),
+    match result {
+        Ok(v) => println!("result tuple: {:?}", v),
+        Err(e) => println!("do_something(): {}", e),
     }
 }
 
 fn do_something() -> Result<(String, u32), MyError> {
     let f = "example.txt";
-    let s = read_file(f)?; // std::io::Error converted to MyError
-    let r = "2018".parse::<u32>()?; // std::num::ParseIntError converted to MyError
+    let num_as_string = "2018";
+    let s = read_file(f).map_err(|e| format!("I/O error while reading '{}': {}", f, e))?;
+    let r = num_as_string.parse::<u32>().map_err(|e| {
+        format!("error parsing '{}' as int: {}", num_as_string, e.description())
+    })?;
     Ok((s, r))
 }
 
