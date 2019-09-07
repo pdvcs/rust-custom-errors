@@ -1,7 +1,7 @@
 [package]
 name = "rustq"
 version = "0.1.0"
-authors = ["Prasenjeet Dutta <prasenjeet.dutta@gmail.com>"]
+authors = ["Prasenjeet Dutta <email@example.com>"]
 edition = "2018"
 
 [dependencies]
