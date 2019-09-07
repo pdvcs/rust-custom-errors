@@ -14,7 +14,9 @@ quick_error! {
     }
 }
 
-// Here our goal is to have readable custom error messages, with context
+// Our goal is to have:
+// 1) our own error type that deals with all the various errors we'll encounter
+// 2) readable custom error messages, with context
 
 fn main() {
     let result = do_something();
@@ -29,9 +31,9 @@ fn do_something() -> Result<(String, u32), MyError> {
     let f = "example.txt";
     let num_as_string = "2018";
     let s = read_file(f).map_err(|e| format!("I/O error while reading '{}': {}", f, e))?;
-    let r = num_as_string.parse::<u32>().map_err(|e| {
+    let r = num_as_string.parse::<u32>().map_err(|e|
         format!("error parsing '{}' as int: {}", num_as_string, e.description())
-    })?;
+    )?;
     Ok((s, r))
 }
 
