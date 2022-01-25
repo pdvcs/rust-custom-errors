@@ -1,8 +1,8 @@
 [package]
-name = "rustq"
+name = "rust_custom_errors"
 version = "0.1.0"
 authors = ["Prasenjeet Dutta <email@example.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
-quick-error = "1.2.2"
+quick-error = "2.0.1"

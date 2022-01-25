@@ -1,7 +1,6 @@
 #[macro_use]
 extern crate quick_error;
 
-use std::error::Error;
 use std::fs;
 
 quick_error! {
@@ -28,12 +27,12 @@ fn main() {
 }
 
 fn do_something() -> Result<(String, u32), MyError> {
-    let f = "example.txt";
-    let num_as_string = "2018";
+    let f = "example.txt";      // try "example2.txt" to force an error
+    let num_as_string = "x2021"; // try "x2021" to force an error
     let s = read_file(f).map_err(|e| format!("I/O error while reading '{}': {}", f, e))?;
-    let r = num_as_string.parse::<u32>().map_err(|e|
-        format!("error parsing '{}' as int: {}", num_as_string, e.description())
-    )?;
+    let r = num_as_string
+        .parse::<u32>()
+        .map_err(|e| format!("error parsing '{}' as int: {}", num_as_string, e))?;
     Ok((s, r))
 }
 
